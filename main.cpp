@@ -102,6 +102,65 @@ int main()
 			cout << "Probabilitatea experimentala pentru suma " << targetSum << " este: " << probability * 100<< "%\n";
 		}
 		break;
+		case 3:
+		{
+			// Joc: suma aruncarilor
+			int d1 = rollDie(6);
+			int d2 = rollDie(6);
+
+			cout << "Zar 1: " << d1 << endl;
+			cout << "Zar 2: " << d2 << endl;
+			cout << "Suma: " << d1 + d2 << endl;
+			break;
+		}
+
+		case 4:
+		{
+			// Joc: Craps (simplificat)
+			int d1 = rollDie(6);
+			int d2 = rollDie(6);
+			int sum = d1 + d2;
+
+			cout << "Suma obtinuta: " << sum << endl;
+
+			if (sum == 7 || sum == 11)
+				cout << "Castig!\n";
+			else if (sum == 2 || sum == 3 || sum == 12)
+				cout << "Pierdere!\n";
+			else
+				cout << "Mai incearca!\n";
+
+			break;
+		}
+
+		case 5:
+		{
+			// Joc: Yahtzee Dice (simplificat)
+			int dice[5];
+			bool yahtzee = true;
+
+			for (int i = 0; i < 5; i++)
+			{
+				dice[i] = rollDie(6);
+				cout << dice[i] << " ";
+			}
+
+			for (int i = 1; i < 5; i++)
+			{
+				if (dice[i] != dice[0])
+				{
+					yahtzee = false;
+					break;
+				}
+			}
+
+			if (yahtzee)
+				cout << "\nYAHTZEE!\n";
+			else
+				cout << "\nNu este Yahtzee.\n";
+
+		break;
+		}
 		case 0:exit(0);
 
 		default:
