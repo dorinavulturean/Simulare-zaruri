@@ -1,7 +1,11 @@
-#include <iostream>
+﻿#include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <map>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
 using namespace std;
 
 // Functie care simuleaza o aruncare de zar
@@ -24,6 +28,10 @@ int main()
 		cout << "Meniu:\n";
 		cout << "1. Simulare aruncari de zaruri cu numar configurabil de fete (6, 8, 10, 12, 20)\n";
 		cout << "2. Calcularea probabilitatilor pentru sume specifice\n";
+		cout << "3. Joc simplu: suma aruncarilor\n";
+		cout << "4. Joc: Craps (versiune simplificata)\n";
+		cout << "5. Joc: Yahtzee Dice (simplificat)\n";
+		cout << "6. Statistici detaliate (frecventa, medie, mediana, deviatie standard)\n";
 		cout << "0. Iesire\n";
 		
 		int opt;
@@ -161,6 +169,54 @@ int main()
 
 		break;
 		}
+		case 6:
+		{
+			int faces, rolls;
+			cout << "Introdu numarul de fete ale zarului: ";
+			cin >> faces;
+			cout << "Introdu numarul de aruncari: ";
+			cin >> rolls;
+
+			vector<int> results;
+			map<int, int> frequency;
+			double sum = 0;
+
+			for (int i = 0; i < rolls; i++)
+			{
+				int r = rollDie(faces);
+				results.push_back(r);
+				frequency[r]++;
+				sum += r;
+			}
+
+			double mean = sum / rolls;
+
+			sort(results.begin(), results.end());
+
+			double median;
+			if (rolls % 2 == 0)
+				median = (results[rolls / 2 - 1] + results[rolls / 2]) / 2.0;
+			else
+				median = results[rolls / 2];
+
+			double variance = 0;
+			for (int r : results)
+				variance += (r - mean) * (r - mean);
+			variance /= rolls;
+
+			double stddev = sqrt(variance);
+
+			cout << "\nFrecvente:\n";
+			for (auto p : frequency)
+				cout << "Fata " << p.first << ": " << p.second << endl;
+
+			cout << "\nMedia: " << mean << endl;
+			cout << "Mediana: " << median << endl;
+			cout << "Deviația standard: " << stddev << endl;
+
+			break;
+		}
+
 		case 0:exit(0);
 
 		default:
