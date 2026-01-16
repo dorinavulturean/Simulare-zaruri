@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 
 using namespace std;
 
@@ -32,6 +33,7 @@ int main()
 		cout << "4. Joc: Craps (versiune simplificata)\n";
 		cout << "5. Joc: Yahtzee Dice (simplificat)\n";
 		cout << "6. Statistici detaliate (frecventa, medie, mediana, deviatie standard)\n";
+		cout << "7. Salvare log-uri simulare in fisier\n";
 		cout << "0. Iesire\n";
 		
 		int opt;
@@ -213,6 +215,40 @@ int main()
 			cout << "\nMedia: " << mean << endl;
 			cout << "Mediana: " << median << endl;
 			cout << "Deviația standard: " << stddev << endl;
+
+			break;
+		}
+		case 7:
+		{
+			int faces, rolls;
+			cout << "Introdu numarul de fete ale zarului: ";
+			cin >> faces;
+			cout << "Introdu numarul de aruncari: ";
+			cin >> rolls;
+
+			ofstream file("simulare_zaruri.log");
+
+			if (!file)
+			{
+				cout << "Eroare la deschiderea fisierului!\n";
+				break;
+			}
+
+			file << "Simulare zaruri\n";
+			file << "Numar fete: " << faces << endl;
+			file << "Numar aruncari: " << rolls << endl;
+			file << "Rezultate:\n";
+
+			for (int i = 0; i < rolls; i++)
+			{
+				int r = rollDie(faces);
+				file << r << " ";
+			}
+
+			file << endl;
+			file.close();
+
+			cout << "Simularea a fost salvata in fisierul simulare_zaruri.log\n";
 
 			break;
 		}
