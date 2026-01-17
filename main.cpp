@@ -35,6 +35,7 @@ int main()
 		cout << "6. Statistici detaliate (frecventa, medie, mediana, deviatie standard)\n";
 		cout << "7. Salvare log-uri simulare in fisier\n";
 		cout << "8. Histograma ASCII pentru distributia aruncarilor\n";
+		cout << "9. Comparatie intre probabilitati teoretice si experimentale\n";
 		cout << "0. Iesire\n";
 		
 		int opt;
@@ -278,6 +279,40 @@ int main()
 					cout << "*";
 				cout << " (" << p.second << ")\n";
 			}
+
+			break;
+		}
+		case 9:
+		{
+			int targetSum, rolls, success = 0;
+
+			cout << "Introdu suma cautata (2-12): ";
+			cin >> targetSum;
+			cout << "Introdu numarul de simulari: ";
+			cin >> rolls;
+
+			for (int i = 0; i < rolls; i++)
+			{
+				int d1 = rollDie(6);
+				int d2 = rollDie(6);
+				if (d1 + d2 == targetSum)
+					success++;
+			}
+
+			double experimental = (double)success / rolls;
+
+			int favorable;
+			if (targetSum <= 7)
+				favorable = targetSum - 1;
+			else
+				favorable = 13 - targetSum;
+
+			double theoretical = (double)favorable / 36;
+
+			cout << "\nProbabilitate teoretica: " << theoretical * 100 << "%\n";
+			cout << "Probabilitate experimentala: " << experimental * 100 << "%\n";
+			cout << "Diferenta: "
+				<< abs(theoretical - experimental) * 100 << "%\n";
 
 			break;
 		}
