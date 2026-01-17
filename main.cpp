@@ -34,6 +34,7 @@ int main()
 		cout << "5. Joc: Yahtzee Dice (simplificat)\n";
 		cout << "6. Statistici detaliate (frecventa, medie, mediana, deviatie standard)\n";
 		cout << "7. Salvare log-uri simulare in fisier\n";
+		cout << "8. Histograma ASCII pentru distributia aruncarilor\n";
 		cout << "0. Iesire\n";
 		
 		int opt;
@@ -249,6 +250,34 @@ int main()
 			file.close();
 
 			cout << "Simularea a fost salvata in fisierul simulare_zaruri.log\n";
+
+			break;
+		}
+		case 8:
+		{
+			int faces, rolls;
+			cout << "Introdu numarul de fete ale zarului: ";
+			cin >> faces;
+			cout << "Introdu numarul de aruncari: ";
+			cin >> rolls;
+
+			map<int, int> frequency;
+
+			for (int i = 0; i < rolls; i++)
+			{
+				int r = rollDie(faces);
+				frequency[r]++;
+			}
+
+			cout << "\nHistograma ASCII:\n";
+
+			for (auto p : frequency)
+			{
+				cout << p.first << " | ";
+				for (int i = 0; i < p.second; i++)
+					cout << "*";
+				cout << " (" << p.second << ")\n";
+			}
 
 			break;
 		}
