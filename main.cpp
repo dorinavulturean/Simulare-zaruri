@@ -36,6 +36,7 @@ int main()
 		cout << "7. Salvare log-uri simulare in fisier\n";
 		cout << "8. Histograma ASCII pentru distributia aruncarilor\n";
 		cout << "9. Comparatie intre probabilitati teoretice si experimentale\n";
+		cout << "10. Setare seed pentru reproducerea rezultatelor\n";
 		cout << "0. Iesire\n";
 		
 		int opt;
@@ -314,6 +315,28 @@ int main()
 			cout << "Diferenta: "
 				<< abs(theoretical - experimental) * 100 << "%\n";
 
+			break;
+		}
+		case 10:
+		{
+			unsigned int seed;
+			int faces, rolls;
+
+			cout << "Introdu seed-ul (numar intreg): ";
+			cin >> seed;
+
+			srand(seed);
+
+			cout << "Introdu numarul de fete ale zarului: ";
+			cin >> faces;
+			cout << "Introdu numarul de aruncari: ";
+			cin >> rolls;
+
+			cout << "Rezultate:\n";
+			for (int i = 0; i < rolls; i++)
+				cout << rollDie(faces) << " ";
+
+			cout << endl;
 			break;
 		}
 
