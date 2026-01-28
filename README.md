@@ -207,4 +207,4 @@ Materiale de curs de la materia Probabilitati si Statistici
 
 Contact
 
-Pentru intrebari: dorina.vulturean@gmail.com
+Pentru intrebari: dorina.vulturean@student.upt.ro

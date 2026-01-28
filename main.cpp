@@ -1,15 +1,16 @@
-﻿#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <map>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-#include <fstream>
+﻿#include <iostream> // pentru cout, cin
+#include <cstdlib> // pentru rand(), srand()
+#include <ctime> // pentru time()
+#include <map> // pentru map (frecvente)
+#include <vector> // pentru vector (statistici)
+#include <algorithm> // pentru sort()
+#include <cmath> // pentru sqrt(), abs()
+#include <fstream> // pentru fisiere
 
 using namespace std;
 
 // Functie care simuleaza o aruncare de zar
+// Returneaza un numar intre 1 si numarul de fete
 int rollDie(int faces)
 {
 	return (rand() % faces) + 1;
@@ -23,9 +24,10 @@ int main()
 	//Initializarea generatorului de numere aleatoare
 	srand(time(NULL));
 
+	// Meniul ruleaza in bucla pana cand utilizatorul alege iesire
 	do
 	{
-
+		// Afisarea meniului
 		cout << "Meniu:\n";
 		cout << "1. Simulare aruncari de zaruri cu numar configurabil de fete (6, 8, 10, 12, 20)\n";
 		cout << "2. Calcularea probabilitatilor pentru sume specifice\n";
@@ -45,6 +47,7 @@ int main()
 
 		switch (opt)
 		{
+			// 1. SIMULARE ARUNCARI
 		case 1:
 		{
 
@@ -73,6 +76,7 @@ int main()
 				frequency[result]++;
 			}
 
+			// Afisarea frecventelor
 			cout << "\nFrecventa fiecarei fete:\n";
 			for (auto p : frequency)
 			{
@@ -81,12 +85,14 @@ int main()
 		}
 		break;
 
+		// 2. PROBABILITATE SUMA (EXPERIMENTAL)
 		case 2:
 		{
 			int rolls;
 			int targetSum;
 			int success = 0;
 
+			// Citirea sumei cautate si a numarului de simulari
 			cout << "Introdu suma cautata: ";
 			cin >> targetSum;
 
@@ -115,6 +121,8 @@ int main()
 			cout << "Probabilitatea experimentala pentru suma " << targetSum << " este: " << probability * 100<< "%\n";
 		}
 		break;
+
+		// 3. JOC: SUMA ARUNCARILOR
 		case 3:
 		{
 			// Joc: suma aruncarilor
@@ -127,9 +135,13 @@ int main()
 			break;
 		}
 
+		// 4. JOC: CRAPS (SIMPLIFICAT)
 		case 4:
 		{
-			// Joc: Craps (simplificat)
+			// Reguli simplificate:
+			// 7 sau 11 -> castig
+			// 2, 3, 12 -> pierdere
+			// altfel -> mai incearca
 			int d1 = rollDie(6);
 			int d2 = rollDie(6);
 			int sum = d1 + d2;
@@ -146,18 +158,22 @@ int main()
 			break;
 		}
 
+		// 5. JOC: YAHTZEE (SIMPLIFICAT)
 		case 5:
 		{
 			// Joc: Yahtzee Dice (simplificat)
+			// Se arunca 5 zaruri, daca toate sunt egale -> YAHTZEE
 			int dice[5];
 			bool yahtzee = true;
 
+			// Aruncarea celor 5 zaruri
 			for (int i = 0; i < 5; i++)
 			{
 				dice[i] = rollDie(6);
 				cout << dice[i] << " ";
 			}
 
+			// Verificare daca toate valorile sunt egale
 			for (int i = 1; i < 5; i++)
 			{
 				if (dice[i] != dice[0])
@@ -174,6 +190,8 @@ int main()
 
 		break;
 		}
+
+		// 6. STATISTICI: FRECVENTA, MEDIE, MEDIANA, STDDEV
 		case 6:
 		{
 			int faces, rolls;
@@ -182,10 +200,11 @@ int main()
 			cout << "Introdu numarul de aruncari: ";
 			cin >> rolls;
 
-			vector<int> results;
-			map<int, int> frequency;
-			double sum = 0;
+			vector<int> results; // pastram toate rezultatele pentru mediana
+			map<int, int> frequency; // frecvente
+			double sum = 0;  // suma pentru medie
 
+			// Colectarea rezultatelor
 			for (int i = 0; i < rolls; i++)
 			{
 				int r = rollDie(faces);
@@ -194,8 +213,10 @@ int main()
 				sum += r;
 			}
 
+			// Media
 			double mean = sum / rolls;
 
+			// Mediana (sortam rezultatele)
 			sort(results.begin(), results.end());
 
 			double median;
@@ -204,6 +225,7 @@ int main()
 			else
 				median = results[rolls / 2];
 
+			// Deviatia standard: sqrt(varianta)
 			double variance = 0;
 			for (int r : results)
 				variance += (r - mean) * (r - mean);
@@ -211,16 +233,20 @@ int main()
 
 			double stddev = sqrt(variance);
 
+			// Afisarea frecventelor
 			cout << "\nFrecvente:\n";
 			for (auto p : frequency)
 				cout << "Fata " << p.first << ": " << p.second << endl;
 
+			// Afisarea statisticilor
 			cout << "\nMedia: " << mean << endl;
 			cout << "Mediana: " << median << endl;
 			cout << "Deviația standard: " << stddev << endl;
 
 			break;
 		}
+
+		// 7. SALVARE LOG IN FISIER
 		case 7:
 		{
 			int faces, rolls;
@@ -229,14 +255,17 @@ int main()
 			cout << "Introdu numarul de aruncari: ";
 			cin >> rolls;
 
+			// Deschidem fisierul de log (suprascrie continutul la fiecare rulare)
 			ofstream file("simulare_zaruri.log");
 
+			// Verificare daca s-a deschis corect
 			if (!file)
 			{
 				cout << "Eroare la deschiderea fisierului!\n";
 				break;
 			}
 
+			// Scriem informatii in fisier
 			file << "Simulare zaruri\n";
 			file << "Numar fete: " << faces << endl;
 			file << "Numar aruncari: " << rolls << endl;
@@ -255,6 +284,8 @@ int main()
 
 			break;
 		}
+
+		// 8. HISTOGRAMA ASCII 
 		case 8:
 		{
 			int faces, rolls;
@@ -265,12 +296,14 @@ int main()
 
 			map<int, int> frequency;
 
+			// Colectam frecventele
 			for (int i = 0; i < rolls; i++)
 			{
 				int r = rollDie(faces);
 				frequency[r]++;
 			}
 
+			// Afisam histograma
 			cout << "\nHistograma ASCII:\n";
 
 			for (auto p : frequency)
@@ -283,6 +316,8 @@ int main()
 
 			break;
 		}
+
+		// 9. COMPARATIE PROBABILITATI (TEORETIC vs EXPERIMENTAL)
 		case 9:
 		{
 			int targetSum, rolls, success = 0;
@@ -292,6 +327,7 @@ int main()
 			cout << "Introdu numarul de simulari: ";
 			cin >> rolls;
 
+			// Probabilitate experimentala (simulam)
 			for (int i = 0; i < rolls; i++)
 			{
 				int d1 = rollDie(6);
@@ -302,6 +338,8 @@ int main()
 
 			double experimental = (double)success / rolls;
 
+			// Probabilitate teoretica:
+		   // numar cazuri favorabile / 36
 			int favorable;
 			if (targetSum <= 7)
 				favorable = targetSum - 1;
@@ -310,6 +348,7 @@ int main()
 
 			double theoretical = (double)favorable / 36;
 
+			// Afisare rezultate
 			cout << "\nProbabilitate teoretica: " << theoretical * 100 << "%\n";
 			cout << "Probabilitate experimentala: " << experimental * 100 << "%\n";
 			cout << "Diferenta: "
@@ -317,16 +356,20 @@ int main()
 
 			break;
 		}
+
+		// 10. SETARE SEED PENTRU REPRODUCERE
 		case 10:
 		{
 			unsigned int seed;
 			int faces, rolls;
 
+			// Citim seed-ul si il setam pentru rand()
 			cout << "Introdu seed-ul (numar intreg): ";
 			cin >> seed;
 
 			srand(seed);
 
+			// Apoi simulam o serie de aruncari (repetabile cu acelasi seed)
 			cout << "Introdu numarul de fete ale zarului: ";
 			cin >> faces;
 			cout << "Introdu numarul de aruncari: ";
@@ -340,9 +383,14 @@ int main()
 			break;
 		}
 
-		case 0:exit(0);
+		// IESIRE
+		case 0:
+			cout << "La revedere!\n";
+			exit(0);
 
+			// OPTIUNE INVALIDA
 		default:
+			cout << "Optiune invalida!\n";
 			break;
 		}
 	} while (true);
