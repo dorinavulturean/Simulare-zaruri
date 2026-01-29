@@ -49,6 +49,10 @@ Instalare
 3. Selecteaza configuratia Debug sau Release
 4. Compileaza si ruleaza aplicatia folosind `Ctrl + F5`
 
+Rulare cu Docker
+
+bash
+docker run ghcr.io/dorinavulturean/simulare-zaruri:latest
 
 Rulare
 
