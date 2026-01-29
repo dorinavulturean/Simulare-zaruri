@@ -24,7 +24,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
-    <None Include=".dockerignore" />
-    <None Include=".github" />
   </ItemGroup>
 </Project>
